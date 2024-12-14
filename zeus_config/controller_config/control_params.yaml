@@ -1,0 +1,20 @@
+# parameters of vehicle dynamics
+/controller/vehicle_mass: 1845.0
+/controller/wheelbase: 3.0
+/controller/latStiffness_front: -155494.663
+/controller/latStiffness_rear: -155494.663
+/controller/LQRcontroller/q1: 3.0
+/controller/LQRcontroller/q2: 1.0
+/controller/LQRcontroller/q3: 0.1
+/controller/LQRcontroller/q4: 0.1
+/controller/LQRcontroller/r: 10.0
+/controller/control_rate: 100
+/controller/front_wheel_max_angle: 70.0
+/controller/rear_wheel_max_angle: 0.0
+/controller/speed_pid/kp: 3.0
+/controller/speed_pid/ki: 0.0
+/controller/speed_pid/kd: 0.0
+/controller/accel_pid/kp: 0.4
+/controller/accel_pid/ki: 0.0
+/controller/accel_pid/kd: 0.0
+/controller/pid/dt: 0.01
