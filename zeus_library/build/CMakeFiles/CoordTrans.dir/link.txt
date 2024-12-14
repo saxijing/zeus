@@ -1,0 +1,2 @@
+/usr/bin/ar qc libCoordTrans.a CMakeFiles/CoordTrans.dir/src/CoordTrans.cpp.o
+/usr/bin/ranlib libCoordTrans.a

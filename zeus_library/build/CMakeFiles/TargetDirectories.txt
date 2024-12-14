@@ -1,0 +1,3 @@
+/home/saxijing/carla-ros-bridge/catkin_ws/src/ros-bridge/zeus_library/build/CMakeFiles/CoordTrans.dir
+/home/saxijing/carla-ros-bridge/catkin_ws/src/ros-bridge/zeus_library/build/CMakeFiles/edit_cache.dir
+/home/saxijing/carla-ros-bridge/catkin_ws/src/ros-bridge/zeus_library/build/CMakeFiles/rebuild_cache.dir
