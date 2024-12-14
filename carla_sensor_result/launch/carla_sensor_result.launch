@@ -1,0 +1,10 @@
+<!-- -->
+<launch>
+  <!-- <arg name="role_name" default="ego_vehicle"/> -->
+
+  <node pkg="carla_sensor_result" type="carla_sensor_result.py" name="carla_vehicle_state_and_perception" output="screen">
+    <!-- <param name="role_name" value="$(arg role_name)"/> -->
+  </node>
+
+</launch>
+
