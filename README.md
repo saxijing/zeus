@@ -1,5 +1,5 @@
 # zeus READ ME
-# 1. download directory
+# 1. Download directory
 Install carla ROS Bridge in Ubuntu environment, and then download the above files to the "carla-ros-bridge/catkin_ws/src/ros-bridge" directory.
 # 2. Introduce each ROS package
 * __carla_sensor_result:__ Python ROS node, used to obtain information in the Carla simulator, including ego vehicle's state, obstacle information, etc.
