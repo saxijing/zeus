@@ -1,0 +1,232 @@
+<?xml version="1.0"?>
+<OpenSCENARIO>
+  <FileHeader revMajor="1" revMinor="0" date="2024-09-29T15:16:56" description="CARLA:ZeusPlanner" author=""/>
+  <ParameterDeclarations>
+    <ParameterDeclaration name="oppositeSpeed" parameterType="double" value="2.0"/>
+    <ParameterDeclaration name="leadingSpeed" parameterType="double" value="2.0"/>
+    <ParameterDeclaration name="startTime" parameterType="double" value="0.1"/>
+    <ParameterDeclaration name="leadingCarSpawnS" parameterType="double" value="10.0"/>
+    <ParameterDeclaration name="leadingCarStepS" parameterType="double" value="2.0"/>
+    <ParameterDeclaration name="leadingCarSinAcceleS" parameterType="double" value="12.0"/>
+    <ParameterDeclaration name="leadingCarSinDecelS" parameterType="double" value="11.0"/>
+  </ParameterDeclarations>
+  <CatalogLocations>
+  </CatalogLocations>
+  <RoadNetwork>
+    <LogicFile filepath="Town01"/>
+    <SceneGraphFile filepath=""/>
+  </RoadNetwork>
+  <Entities>
+    <ScenarioObject name="ego_vehicle">
+      <Vehicle name="vehicle.tesla.model3" vehicleCategory="car">
+        <ParameterDeclarations/>
+        <Performance maxSpeed="72.8" maxAcceleration="10.0" maxDeceleration="10.0"/>
+        <BoundingBox>
+          <Center x="0.029225" y="0.0" z="0.735"/>
+          <Dimensions width="2.1" length="4.72" height="1.5"/>
+        </BoundingBox>
+        <Axles>
+          <FrontAxle maxSteering="1.22" wheelDiameter="1.8" trackWidth="2.0" positionX="3.725" positionZ="0.25"/>
+          <RearAxle maxSteering="0.0" wheelDiameter="1.8" trackWidth="2.0" positionX="0.0" positionZ="0.25"/>
+        </Axles>
+        <Properties>
+          <Property name="type" value="ego_vehicle"/>
+          <Property name="color" value="0,0,255"/>
+        </Properties>
+      </Vehicle>
+    </ScenarioObject>
+    <ScenarioObject name="static_obstacle">
+      <Vehicle name="vehicle.ford.crown" vehicleCategory="car">
+        <ParameterDeclarations/>
+        <Performance maxSpeed="69.444" maxAcceleration="10.0" maxDeceleration="10.0"/>
+        <BoundingBox>
+          <Center x="1.5" y="0.0" z="0.9"/>
+          <Dimensions width="2.1" length="4.5" height="1.8"/>
+        </BoundingBox>
+        <Axles>
+          <FrontAxle maxSteering="0.5" wheelDiameter="0.6" trackWidth="1.8" positionX="3.1" positionZ="0.3"/>
+          <RearAxle maxSteering="0.0" wheelDiameter="0.6" trackWidth="1.8" positionX="0.0" positionZ="0.3"/>
+        </Axles>
+        <Properties>
+          <Property name="type" value="simulation"/>
+          <Property name="color" value="255,240,0"/>
+        </Properties>
+      </Vehicle>
+    </ScenarioObject>
+  </Entities>
+  <Storyboard>
+    <Init>
+      <Actions>
+        <GlobalAction>
+          <EnvironmentAction>
+            <Environment name="Environment1">
+              <TimeOfDay animation="false" dateTime="2020-07-27T18:56:40"/>
+              <Weather cloudState="free">
+                <Sun intensity="1.0" azimuth="0.0" elevation="1.31"/>
+                <Fog visualRange="100000.0"/>
+                <Precipitation precipitationType="dry" intensity="0.0"/>
+              </Weather>
+              <RoadCondition frictionScaleFactor="1.0"/>
+            </Environment>
+          </EnvironmentAction>
+        </GlobalAction>
+        <Private entityRef="ego_vehicle">
+          <PrivateAction>
+            <TeleportAction>
+              <Position>
+                <LanePosition roadId="5" laneId="-1" offset="0" s="0"/>
+              </Position>
+            </TeleportAction>
+          </PrivateAction>
+          <PrivateAction>
+            <LongitudinalAction>
+              <SpeedAction>
+                <SpeedActionDynamics dynamicsShape="step" value="0.0" dynamicsDimension="time"/>
+                <SpeedActionTarget>
+                  <AbsoluteTargetSpeed value="10.0"/>
+                </SpeedActionTarget>
+              </SpeedAction>
+            </LongitudinalAction>
+          </PrivateAction>          
+          <PrivateAction>
+            <ControllerAction>
+                <AssignControllerAction>
+                    <Controller name="EgoVehicleAgent">
+                        <Properties>
+                            <Property name="module" value="external_control"/>
+                            <!-- <Property name="module" value="carla_ros_scenario_runner.ros_vehicle_control" />
+                            <Property name="launch" value="carla_ad_agent.launch"/>
+                            <Property name="launch-package" value="carla_ad_agent"/> -->
+                        </Properties>
+                    </Controller>
+                </AssignControllerAction>
+                <OverrideControllerValueAction>
+                    <Throttle value="0" active="false" />
+                    <Brake value="0" active="false" />
+                    <Clutch value="0" active="false" />
+                    <ParkingBrake value="0" active="false" />
+                    <SteeringWheel value="0" active="false" />
+                    <Gear number="0" active="false" />
+                </OverrideControllerValueAction>
+            </ControllerAction>
+          </PrivateAction>
+        </Private>
+        <Private entityRef="static_obstacle">
+          <PrivateAction>
+            <TeleportAction>
+              <Position>
+                <LanePosition roadId="14" laneId="-1" offset="0" s="16"/>
+              </Position>
+            </TeleportAction>
+          </PrivateAction>
+        </Private>
+      </Actions>
+    </Init>
+    <Story name="MyStory">
+      <Act name="Behavior">
+        <ManeuverGroup maximumExecutionCount="1" name="placeholder">
+          <Actors selectTriggeringEntities="false">
+            <EntityRef entityRef="static_obstacle"/>
+          </Actors>
+          <Maneuver name="StatyStillManeuver">
+            <Event name="StayStill" priority="overwrite">
+              <Action name="StayStill">
+                <PrivateAction>
+                  <LongitudinalAction>
+                    <SpeedAction>
+                      <SpeedActionDynamics dynamicsShape="step" value="1" dynamicsDimension="distance"/>
+                      <SpeedActionTarget>
+                        <AbsoluteTargetSpeed value="0.0"/>
+                      </SpeedActionTarget>
+                    </SpeedAction>
+                  </LongitudinalAction>
+                </PrivateAction>
+              </Action>
+              <StartTrigger>
+                <ConditionGroup>
+                  <Condition name="StartCondition" delay="0" conditionEdge="rising">
+                    <ByValueCondition>
+                      <SimulationTimeCondition value="$startTime" rule="greaterThan"/>
+                    </ByValueCondition>
+                  </Condition>
+                </ConditionGroup>
+              </StartTrigger>
+            </Event>
+          </Maneuver>
+        </ManeuverGroup>
+      
+        <StartTrigger>
+          <ConditionGroup>
+            <Condition name="OverallStartCondition" delay="0" conditionEdge="rising">
+              <ByEntityCondition>
+                <TriggeringEntities triggeringEntitiesRule="any">
+                  <EntityRef entityRef="ego_vehicle"/>
+                </TriggeringEntities>
+                <EntityCondition>
+                  <TraveledDistanceCondition value="0.5"/>
+                </EntityCondition>
+              </ByEntityCondition>
+            </Condition>
+            <Condition name="StartTime" delay="0" conditionEdge="rising">
+              <ByValueCondition>
+                <SimulationTimeCondition value="0" rule="equalTo"/>
+              </ByValueCondition>
+            </Condition>
+          </ConditionGroup>
+        </StartTrigger>
+        <StopTrigger>
+          <ConditionGroup>
+            <Condition name="EndCondition" delay="0" conditionEdge="rising">
+              <ByEntityCondition>
+                <TriggeringEntities triggeringEntitiesRule="any">
+                  <EntityRef entityRef="ego_vehicle"/>
+                </TriggeringEntities>
+                <EntityCondition>
+                  <ReachPositionCondition tolerance="2.0">
+                    <Position>
+                      <RoadPosition roadId="0" s="0" t="0"/>
+                    </Position>
+                  </ReachPositionCondition>
+                </EntityCondition>
+              </ByEntityCondition>
+            </Condition>
+          </ConditionGroup>
+        </StopTrigger>
+      </Act>
+    </Story>
+    <StopTrigger>
+      <ConditionGroup>
+        <Condition name="criteria_RunningStopTest" delay="0" conditionEdge="rising">
+          <ByValueCondition>
+            <ParameterCondition parameterRef="" value="" rule="lessThan"/>
+          </ByValueCondition>
+        </Condition>
+        <Condition name="criteria_RunningRedLightTest" delay="0" conditionEdge="rising">
+          <ByValueCondition>
+            <ParameterCondition parameterRef="" value="" rule="lessThan"/>
+          </ByValueCondition>
+        </Condition>
+        <Condition name="criteria_WrongLaneTest" delay="0" conditionEdge="rising">
+          <ByValueCondition>
+            <ParameterCondition parameterRef="" value="" rule="lessThan"/>
+          </ByValueCondition>
+        </Condition>
+        <Condition name="criteria_OnSidewalkTest" delay="0" conditionEdge="rising">
+          <ByValueCondition>
+            <ParameterCondition parameterRef="" value="" rule="lessThan"/>
+          </ByValueCondition>
+        </Condition>
+        <Condition name="criteria_KeepLaneTest" delay="0" conditionEdge="rising">
+          <ByValueCondition>
+            <ParameterCondition parameterRef="" value="" rule="lessThan"/>
+          </ByValueCondition>
+        </Condition>
+        <Condition name="criteria_CollisionTest" delay="0" conditionEdge="rising">
+          <ByValueCondition>
+            <ParameterCondition parameterRef="" value="" rule="lessThan"/>
+          </ByValueCondition>
+        </Condition>
+      </ConditionGroup>
+    </StopTrigger>
+  </Storyboard>
+</OpenSCENARIO>
