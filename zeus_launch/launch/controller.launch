@@ -1,0 +1,7 @@
+<launch>
+   <rosparam command="load" file="$(find zeus_config)/controller_config/control_params.yaml"/>
+   <!-- <include file="$(find launch)/launch/monitor/monitor_real.launch" /> -->
+   <node pkg="zeus_controller" type="controller" name="controller" output="screen"/>
+   <!-- <node pkg="control" type="control" name="control" output="screen" args="1"/> -->
+   <!--<node name="showdrpath" pkg="gnssuwbdr" type="showdrpath"/>-->
+</launch>
