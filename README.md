@@ -1,6 +1,32 @@
 # zeus READ ME
 # 0 Results
 
+Carla simulation results of Zeus controller as following:
+
+<div align=center> <img src="https://github.com/saxijing/zeus/blob/main/zeus_controller/data/display_materials/lqr_control_carla_sim.gif" width=700></div>
+
+<p align="center">Fig.1 Zeus Controller's Carla simulation results</p>
+
+<div align=center> <img src="https://github.com/saxijing/zeus/blob/main/zeus_controller/data/display_materials/lqr_control_trajectory.png" width=900></div>
+
+<p align="center">Fig.2 Comparison diagram of ego vehicle trajectory and reference trajectory</p>
+
+Combining Fig.1 and Fig.2, the ego vehicle controlled by the **Zeus controller** basically drives along the target trajectory. There is only a significant error in the section where the curvature of the target trajectory changes greatly, but it is still within the allowable range. The following are the specific error values.
+
+<div align=center> <img src="https://github.com/saxijing/zeus/blob/main/zeus_controller/data/display_materials/lqr_control_error_a%3D1.62.png" width=1500></div>
+
+<p align="center">Fig.3 Zeus controller error</p>
+
+<div align=center> <img src="https://github.com/saxijing/zeus/blob/main/zeus_controller/data/display_materials/lqr_control_road_curv.png" width=600></div>
+
+<p align="center">Fig.4 Reference trajectory curvature</p>
+
+Combining Fig.3 and Fig.4, simulation conclusions are as following:
+
+(1) In sections with continuous curvature, the **lateral distance error and angle error are close to 0**; 
+
+(2) In sections with **sudden changes in curvature**, the lateral distance error is between -1.0m and 1.5m, which can ensure the safety of conventional roads with two or more lanes, and the angle error is ±2°, which is also within the allowable error range.
+
 # 1 Download directory
 Install carla ROS Bridge in Ubuntu environment, and then download the above files to the "carla-ros-bridge/catkin_ws/src/ros-bridge" directory.
 # 2 Introduce each ROS package
