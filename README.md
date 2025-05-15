@@ -27,9 +27,13 @@ Combining Fig.3 and Fig.4, simulation conclusions are as following:
 
 (2) In sections with **sudden changes in curvature**, the lateral distance error is between -1.0m and 1.5m, which can ensure the safety of conventional roads with two or more lanes, and the angle error is ±2°, which is also within the allowable error range.
 
-# 1 Download directory
-Install carla ROS Bridge in Ubuntu environment, and then download the above files to the "carla-ros-bridge/catkin_ws/src/ros-bridge" directory.
-# 2 Introduce each ROS package
+# 1 Local Path of Repository
+Install carla ROS Bridge in Ubuntu environment, and then clone the repository to the "carla-ros-bridge/catkin_ws/src/ros-bridge" directory.
+
+# 2 Introduction to Zeus Project
+
+## 2.1 Introduction to each ROS package
+
 * __carla_sensor_result:__ Python ROS node, used to obtain information in the Carla simulator, including ego vehicle's state, obstacle information, etc.
 * __zeus_common:__ C++ ROS package, implemented some class and function definitions shared by planner and controller modules, including the representation of ego vehicle and object, coordinate system transformation, etc.
 * __zeus_library:__  C++ static library, which is the functions' implementation of zeus_common.
@@ -39,8 +43,23 @@ Install carla ROS Bridge in Ubuntu environment, and then download the above file
 * __zeus_calibration:__ C++ ROS node, used to calibrate velocity and acceleration in different threshold and brake, make threshold-brake table for longitudinal control. The calibration results are stored in this directory "zeus/zeus_controller/data/pid_control".
 * __zeus_controller:__ C++ ROS node, including LQR controller based on vehicle dynamics for lateral control, and PID controller based on segmented control strategy for longitudinal control
 * __scenario_files:__ .xosc files, scenario files  used in simulation.
+
+## 2.2 Project Architecture
+
+In order to be closer to real-world vehicle operating environment, this project employs C++ code programming and utilizes ROS for inter process communication, relying on Carla simulator to complete verification. The overall architecture and data flow diagram of the project are illustrated in Fig.5.The Carla simulator operates the scenario file to provide simulation environment, while the library named carla-ros-bridge connects the Carla simulation environment with ROS nodes.
+
+The **carla_sensor_result node** simulates sensor acquisition of the ego vehicle state and surrounding environment information, publishing these as ROS messages. The **zeus_controller node**, serving as the core module of this project, subscribes ego vehicle state, processes it through the **LQR Controller** and **PID Controller**, and publishes control signals including throttle, brake, and steer. Upon subscribing these control signals, the carla-ros-bridge updates the ego vehicle pose within Carla, thereby completing the control loop.
+
+To enhance the zeus_controller's responsiveness, certain computations -- such as the LQR feedback matrix K and throttle-brake calibration table -- are precomputed offline. During real-time operation, these values are retrived via table lookups. Additionally, commonly used functions shared between controller and planner -- such as coordinate transformations between Frenet and Cartesian -- are implemented as static libraries in **zeus_library** directory to enable multi-module accessibility. Please refer to Fig.5 for more details.
+
+<div align=center> <img src="https://github.com/saxijing/zeus/blob/main/zeus_controller/data/display_materials/zeus_architecture.png" width=800></div>
+
+<p align="center">Fig.5 Zeus Project Architecture</p>
+
 # 3 Others
+
 ## 3.1 Command line to be executed
+
 roslaunch carla_ros_bridge carla_ros_bridge.launch
 
 python scenario_runner.py --openscenario /home/saxijing/carla-ros-bridge/catkin_ws/data/reference_point/zeus_calibration_06.xosc
