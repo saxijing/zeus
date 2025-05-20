@@ -27,6 +27,16 @@ Combining Fig.3 and Fig.4, simulation conclusions are as following:
 
 (2) In sections with **sudden changes in curvature**, the lateral distance error is between -1.0m and 1.5m, which can ensure the safety of conventional roads with two or more lanes, and the angle error is ±2°, which is also within the allowable error range.
 
+
+**Tab.1 Average Errors of Coordinate Transformation**
+
+|distance error(m) |yaw_angle error($^。$) |curvature error($m^{-1}$) |velocity error(m/s) |acceleration error(%) |
+|:------:|:------:|:------:|:------:|:------:|
+|0.2|7.4|0|$9 \times 10 ^{-4}$|58.3|
+
+Above Table 1 presents the average errors (across 12 test cases) of the Cartesian coordinate values $(x, y, yaw, curv, v, a)$ after a two -step **Cartesian -> Frenet -> Cartesian** transformation comapred to the original values.
+The results show that the **distance error, yaw error, curvature error, and velocity error all remain within acceptable tolerances**. However, **acceleration transformation is significantly affected by road curvature**, leading to unacceptably large errors at a part of sampling points where the **raidus of curvature is below 60m**. Consequently, the accuracy rate of acceleration transformation is **58.3%**.
+
 # 1 Local Path of Repository
 Install carla ROS Bridge in Ubuntu environment, and then clone the repository to the "carla-ros-bridge/catkin_ws/src/ros-bridge" directory.
 
