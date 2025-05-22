@@ -23,10 +23,9 @@ Combining Fig.1 and Fig.2, the ego vehicle controlled by the **Zeus controller**
 
 Combining Fig.3 and Fig.4, simulation conclusions are as following:
 
-(1) In sections with continuous curvature, the **lateral distance error and angle error are close to 0**; 
+(1) On road segments with **a curvature of less than $0.1 m^{-1}$**, the **lateral distance errors are within centimeters**, and the **yaw angle errors are within $0.1 ^ {\circ}$**;
 
-(2) In sections with **sudden changes in curvature**, the lateral distance error is between -1.0m and 1.5m, which can ensure the safety of conventional roads with two or more lanes, and the angle error is ±2°, which is also within the allowable error range.
-
+(2) On road segments with **a curvature greater than $0.1 m^{-1}$ or where the curvature changes abruptly**, the **lateral distance errors range from $-1 \sim 1.5m$**, and the **yaw angle errors are within $\pm2 ^{\circ}$**.
 
 **Tab.1 Average Errors of Coordinate Transformation**
 
